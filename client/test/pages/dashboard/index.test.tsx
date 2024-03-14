@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import '@testing-library/jest-dom/vitest';
 import Dashboard from '../../../src/pages/dashboard';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 vi.mock('../../../src/services/api-service', () => ({
   getRecipes: vi.fn().mockResolvedValue({
@@ -78,10 +77,10 @@ describe('Dashboard Component', () => {
       </Router>
     );
 
-    // Assert that your mock data is rendered as expected
+    
     expect(await screen.findByText('Colita de Cuadril')).toBeInTheDocument();
     expect(await screen.findByText('Volcan de Chocolate')).toBeInTheDocument();
-    // Add any additional assertions here
+    
   });
 
   it('clicks on the "Mains" category button', async () => {
@@ -90,7 +89,7 @@ describe('Dashboard Component', () => {
         <Dashboard />
       </Router>
     );
-    // Find the "Mains" button and click it
+    
     const mainsButton = screen.getByRole('button', { name: 'Mains' });
     fireEvent.click(mainsButton);
   });
@@ -101,11 +100,11 @@ describe('Dashboard Component', () => {
         <Dashboard />
       </Router>
     );
-    // Find the "Mains" button and click it
+    
     const mainsButton = screen.getByRole('button', { name: 'Mains' });
     fireEvent.click(mainsButton);
     expect(await screen.findByText('Colita de Cuadril')).toBeInTheDocument();
-    //Excpect not to be
+    
     expect(screen.queryByText('Volcan de Chocolate')).not.toBeInTheDocument();
   });
 
@@ -115,10 +114,10 @@ describe('Dashboard Component', () => {
         <Dashboard />
       </Router>
     );
-    // Find the search input
+    
     const searchInput = screen.getByPlaceholderText('Search here...');
     expect(searchInput).toBeInTheDocument();
-    // Type "colita" into the search input
+    
     await userEvent.type(searchInput, 'colita');
     expect(await screen.findByText('Colita de Cuadril')).toBeInTheDocument();
     expect(screen.queryByText('Volcan de Chocolate')).not.toBeInTheDocument();

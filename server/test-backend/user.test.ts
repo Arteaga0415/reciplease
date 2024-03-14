@@ -1,10 +1,5 @@
 import request from './jest.setup';
 
-beforeAll(async () => {
-});
-afterAll(async () => {
-});
-
 describe('User Registration and Login', () => {
 
   it('should register a user', async () => {
@@ -24,7 +19,6 @@ describe('User Registration and Login', () => {
   it('should log in a user with an existing email', async () => {
     const userData = { email: 'test@example.com', password: 'password123' };
     const response = await request.post('/login').send(userData);
-    const userID = response.body.user._id;
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
   });
