@@ -25,7 +25,6 @@ describe('User Registration and Login', () => {
     const userData = { email: 'test@example.com', password: 'password123' };
     const response = await request.post('/login').send(userData);
     const userID = response.body.user._id;
-    console.log('User ID is: ', userID);
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
   });
@@ -76,6 +75,30 @@ describe('User Registration and Login', () => {
    expect(response.body.success).toBe(true);
   });
 
+  it('should toggle a recipe as favorite', async () => {
+    const userData = { email: 'test@example.com', password: 'password123' };
+    const user = await request.post('/login').send(userData);
+    const userID = user.body.user._id;
+    const recipe = await request.get(`/dashboard/${userID}`);
+    const recipeID = recipe.body.data[0]._id;
+    const toggleFavoriteData = {
+      recipeId: recipeID,
+      userId: userID
+    };
+    const toggleResponse = await request.post('/favourite-recipe').send(toggleFavoriteData);
+    expect(toggleResponse.status).toBe(201);
+  });
+
+  it('should delete a recipe', async () => {
+    const userData = { email: 'test@example.com', password: 'password123' };
+    const user = await request.post('/login').send(userData);
+    const userID = user.body.user._id;
+    const recipe = await request.get(`/dashboard/${userID}`);
+    const recipeID = recipe.body.data[0]._id;
+    const deleteResponse = await request.delete(`/delete-recipe/${userID}/${recipeID}`);
+    expect(deleteResponse.status).toBe(200); 
+  });
+
   it('should delete the user', async () => {
     const userData = { email: 'test@example.com', password: 'password123' };
     const user = await request.post('/login').send(userData);
@@ -86,9 +109,3 @@ describe('User Registration and Login', () => {
    expect(response.body.success).toBe(true);
   });
 });
-
-
-
-
-  // Add more tests here...
-

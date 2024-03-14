@@ -15,7 +15,7 @@ describe('Register and Login Form', () => {
     cy.get('.auth-form', { timeout: 2000 } ).submit();
     cy.wait('@registrationAttempt').then(({ response }) => {
       if (response) {
-        expect(response.statusCode).to.equal(201); // Adjust according to the expected status code
+        expect(response.statusCode).to.equal(201);
       } else {
         throw new Error('Response was undefined');
       }
@@ -37,11 +37,14 @@ describe('Register and Login Form', () => {
     cy.contains('button', 'Mains').should('be.visible');
     cy.contains('button', 'Desserts').should('be.visible');
     cy.contains('button', 'Favourites').should('be.visible');
+
+
   });
   it('should successfully delete the user', () => {
     cy.visit('http://localhost:5173/');
-    // Fill in the email and password fields
+
     cy.intercept('POST', '/login').as('loginUser');
+
     cy.get('input[name="email"]').type('admin');
     cy.get('input[name="password"]').type('admin');
     // Submit the form
@@ -52,7 +55,7 @@ describe('Register and Login Form', () => {
         const userId = response.body.user._id;
         console.log('Extracted userId:', userId);
         cy.request('DELETE', `http://localhost:3000/delete-user/${userId}`).then((response) => {
-          expect(response.status).to.eq(200); // Assert the expected status code
+          expect(response.status).to.eq(200);
         });
       }
     });
