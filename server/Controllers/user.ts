@@ -57,15 +57,12 @@ const deleteUser = async (req: Request, res : Response) => {
   try {
     const { userId } = req.params;
     const user = await userModel.findById(userId);
-    
     if (!user) {
       return res.status(404).send({ success: false, message: "User not found" });
     }
-
     for (const recipeId of user.recipes) {
       await recipeModel.deleteOne({ _id: recipeId });
     }
-
     await userModel.deleteOne({ _id: userId });
 
     res.status(200).send({ success: true, message: "User and their recipes deleted" });
@@ -76,3 +73,4 @@ const deleteUser = async (req: Request, res : Response) => {
 };
 
 export default { registerUser, loginUser, deleteUser };
+
