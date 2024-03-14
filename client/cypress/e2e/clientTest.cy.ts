@@ -38,6 +38,11 @@ describe('Register and Login Form', () => {
     cy.contains('button', 'Desserts').should('be.visible');
     cy.contains('button', 'Favourites').should('be.visible');
 
+    cy.contains('button', 'Add recipe').click();
+    // Wait for the URL to change to /create-recipe
+    cy.url().should('include', '/create-recipe');
+    // Assert that the text "on the menu" is visible on the page
+    cy.contains('on the menu').should('be.visible');
 
   });
   it('should successfully delete the user', () => {
